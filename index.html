@@ -1,147 +1,77 @@
-index.html
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Sparkle's Magical Adventure</title>
-    <style>
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background-color: #ffe6f2;
-            color: #5c005c;
-            padding: 20px;
-            text-align: center;
-        }
-        #story {
-            font-size: 1.5em;
-            margin-bottom: 30px;
-        }
-        .option {
-            display: block;
-            width: 80%;
-            margin: 10px auto;
-            padding: 15px;
-            font-size: 1.2em;
-            background-color: #ffccff;
-            border: 2px solid #ff66cc;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #5c005c;
-        }
-        .option:hover {
-            background-color: #ffe6ff;
-        }
-    </style>
-</head>
-<body>
-    <h1>Sparkle's Magical Adventure</h1>
-    <div id="story"></div>
-    <div id="options"></div>
+import React, { useState } from 'react';
+import { Camera, Upload } from 'lucide-react';
 
-    <script>
-        const scenes = {
-            start: {
-                text: "One bright morning, Sparkle the unicorn discovers a shimmering path in Candy Land. Where should Sparkle go?",
-                options: [
-                    { text: "Visit the Chocolate Forest", next: "chocolateForest" },
-                    { text: "Explore the Lollipop Lake", next: "lollipopLake" },
-                    { text: "Climb the Gumdrop Mountain", next: "gumdropMountain" }
-                ]
-            },
-            chocolateForest: {
-                text: "In the Chocolate Forest, trees are made of chocolate bars! Sparkle meets a friendly squirrel who loves to share.",
-                options: [
-                    { text: "Have a chocolate picnic", next: "chocolatePicnic" },
-                    { text: "Play hide and seek", next: "hideAndSeek" },
-                    { text: "Sing a happy song", next: "happySong" }
-                ]
-            },
-            chocolatePicnic: {
-                text: "They have a delicious picnic with chocolate treats. Yum! What a sweet adventure!",
-                options: []
-            },
-            hideAndSeek: {
-                text: "They play hide and seek among the chocolate trees. Giggles echo everywhere!",
-                options: []
-            },
-            happySong: {
-                text: "They sing a happy song that makes flowers bloom made of candy! The forest smiles with joy.",
-                options: []
-            },
-            lollipopLake: {
-                text: "At Lollipop Lake, the water is sparkling lemonade! A friendly dolphin waves hello.",
-                options: [
-                    { text: "Ride on the dolphin's back", next: "dolphinRide" },
-                    { text: "Have a lemonade splash", next: "lemonadeSplash" },
-                    { text: "Collect seashells", next: "collectSeashells" }
-                ]
-            },
-            dolphinRide: {
-                text: "Sparkle rides on the dolphin's back, skipping over waves. It's so much fun!",
-                options: []
-            },
-            lemonadeSplash: {
-                text: "They have a splashy time in the lemonade water, making fizzy bubbles everywhere!",
-                options: []
-            },
-            collectSeashells: {
-                text: "They find colorful seashells that sing little songs. Sparkle keeps one as a treasure.",
-                options: []
-            },
-            gumdropMountain: {
-                text: "Climbing Gumdrop Mountain is so exciting! At the top, a friendly dragon offers a rainbow treat.",
-                options: [
-                    { text: "Slide down a rainbow", next: "rainbowSlide" },
-                    { text: "Fly with the dragon", next: "dragonFly" },
-                    { text: "Have a tea party", next: "teaParty" }
-                ]
-            },
-            rainbowSlide: {
-                text: "They slide down a rainbow, laughing all the way. Whee!",
-                options: []
-            },
-            dragonFly: {
-                text: "Flying high with the dragon, Sparkle sees all of Candy Land. What a view!",
-                options: []
-            },
-            teaParty: {
-                text: "They have a fancy tea party with tiny cakes and giggles. Cheers!",
-                options: []
-            }
-        };
+const BeautyApp = () => {
+  const [activeTab, setActiveTab] = useState('makeup');
+  const [imageUrl, setImageUrl] = useState(null);
 
-        function renderScene(sceneKey) {
-            const scene = scenes[sceneKey];
-            document.getElementById('story').innerText = scene.text;
-            const optionsDiv = document.getElementById('options');
-            optionsDiv.innerHTML = '';
+  const mockRecommendations = {
+    makeup: [
+      { name: 'Natural Glow Foundation', description: 'Perfect for warm undertones', image: '/api/placeholder/200/150' },
+      { name: 'Rose Blush', description: 'Complements your skin tone', image: '/api/placeholder/200/150' },
+    ],
+    hairstyles: [
+      { name: 'Layered Cut', description: 'Ideal for your face shape', image: '/api/placeholder/200/150' },
+      { name: 'Beach Waves', description: 'Enhances facial features', image: '/api/placeholder/200/150' },
+    ],
+    accessories: [
+      { name: 'Gold Hoops', description: 'Complements warm undertones', image: '/api/placeholder/200/150' },
+      { name: 'Cat-Eye Glasses', description: 'Perfect for your face shape', image: '/api/placeholder/200/150' },
+    ]
+  };
 
-            if (scene.options.length > 0) {
-                scene.options.forEach(option => {
-                    const button = document.createElement('a');
-                    button.className = 'option';
-                    button.innerText = option.text;
-                    button.href = '#';
-                    button.onclick = function() {
-                        renderScene(option.next);
-                        return false;
-                    };
-                    optionsDiv.appendChild(button);
-                });
-            } else {
-                const restartButton = document.createElement('a');
-                restartButton.className = 'option';
-                restartButton.innerText = 'Start Over';
-                restartButton.href = '#';
-                restartButton.onclick = function() {
-                    renderScene('start');
-                    return false;
-                };
-                optionsDiv.appendChild(restartButton);
-            }
-        }
+  return (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-8">Beauty Recommendations</h1>
+        
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div className="flex justify-center gap-4 mb-6">
+            <button className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              <Camera className="w-5 h-5" />
+              Take Photo
+            </button>
+            <button className="flex items-center gap-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+              <Upload className="w-5 h-5" />
+              Upload Photo
+            </button>
+          </div>
+          
+          {imageUrl && (
+            <div className="mb-6">
+              <img src={imageUrl} alt="Uploaded" className="w-64 h-64 object-cover mx-auto rounded-lg" />
+            </div>
+          )}
+        </div>
 
-        renderScene('start');
-    </script>
-</body>
-</html>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="flex gap-4 mb-6">
+            {Object.keys(mockRecommendations).map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-full ${
+                  activeTab === tab ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {mockRecommendations[activeTab].map((item, index) => (
+              <div key={index} className="border rounded-lg p-4">
+                <img src={item.image} alt={item.name} className="w-full h-40 object-cover rounded-lg mb-4" />
+                <h3 className="font-semibold text-lg mb-2">{item.name}</h3>
+                <p className="text-gray-600">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BeautyApp;
