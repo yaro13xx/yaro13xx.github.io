@@ -1,0 +1,147 @@
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sparkle's Magical Adventure</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffe6f2;
+            color: #5c005c;
+            padding: 20px;
+            text-align: center;
+        }
+        #story {
+            font-size: 1.5em;
+            margin-bottom: 30px;
+        }
+        .option {
+            display: block;
+            width: 80%;
+            margin: 10px auto;
+            padding: 15px;
+            font-size: 1.2em;
+            background-color: #ffccff;
+            border: 2px solid #ff66cc;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #5c005c;
+        }
+        .option:hover {
+            background-color: #ffe6ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sparkle's Magical Adventure</h1>
+    <div id="story"></div>
+    <div id="options"></div>
+
+    <script>
+        const scenes = {
+            start: {
+                text: "One bright morning, Sparkle the unicorn discovers a shimmering path in Candy Land. Where should Sparkle go?",
+                options: [
+                    { text: "Visit the Chocolate Forest", next: "chocolateForest" },
+                    { text: "Explore the Lollipop Lake", next: "lollipopLake" },
+                    { text: "Climb the Gumdrop Mountain", next: "gumdropMountain" }
+                ]
+            },
+            chocolateForest: {
+                text: "In the Chocolate Forest, trees are made of chocolate bars! Sparkle meets a friendly squirrel who loves to share.",
+                options: [
+                    { text: "Have a chocolate picnic", next: "chocolatePicnic" },
+                    { text: "Play hide and seek", next: "hideAndSeek" },
+                    { text: "Sing a happy song", next: "happySong" }
+                ]
+            },
+            chocolatePicnic: {
+                text: "They have a delicious picnic with chocolate treats. Yum! What a sweet adventure!",
+                options: []
+            },
+            hideAndSeek: {
+                text: "They play hide and seek among the chocolate trees. Giggles echo everywhere!",
+                options: []
+            },
+            happySong: {
+                text: "They sing a happy song that makes flowers bloom made of candy! The forest smiles with joy.",
+                options: []
+            },
+            lollipopLake: {
+                text: "At Lollipop Lake, the water is sparkling lemonade! A friendly dolphin waves hello.",
+                options: [
+                    { text: "Ride on the dolphin's back", next: "dolphinRide" },
+                    { text: "Have a lemonade splash", next: "lemonadeSplash" },
+                    { text: "Collect seashells", next: "collectSeashells" }
+                ]
+            },
+            dolphinRide: {
+                text: "Sparkle rides on the dolphin's back, skipping over waves. It's so much fun!",
+                options: []
+            },
+            lemonadeSplash: {
+                text: "They have a splashy time in the lemonade water, making fizzy bubbles everywhere!",
+                options: []
+            },
+            collectSeashells: {
+                text: "They find colorful seashells that sing little songs. Sparkle keeps one as a treasure.",
+                options: []
+            },
+            gumdropMountain: {
+                text: "Climbing Gumdrop Mountain is so exciting! At the top, a friendly dragon offers a rainbow treat.",
+                options: [
+                    { text: "Slide down a rainbow", next: "rainbowSlide" },
+                    { text: "Fly with the dragon", next: "dragonFly" },
+                    { text: "Have a tea party", next: "teaParty" }
+                ]
+            },
+            rainbowSlide: {
+                text: "They slide down a rainbow, laughing all the way. Whee!",
+                options: []
+            },
+            dragonFly: {
+                text: "Flying high with the dragon, Sparkle sees all of Candy Land. What a view!",
+                options: []
+            },
+            teaParty: {
+                text: "They have a fancy tea party with tiny cakes and giggles. Cheers!",
+                options: []
+            }
+        };
+
+        function renderScene(sceneKey) {
+            const scene = scenes[sceneKey];
+            document.getElementById('story').innerText = scene.text;
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            if (scene.options.length > 0) {
+                scene.options.forEach(option => {
+                    const button = document.createElement('a');
+                    button.className = 'option';
+                    button.innerText = option.text;
+                    button.href = '#';
+                    button.onclick = function() {
+                        renderScene(option.next);
+                        return false;
+                    };
+                    optionsDiv.appendChild(button);
+                });
+            } else {
+                const restartButton = document.createElement('a');
+                restartButton.className = 'option';
+                restartButton.innerText = 'Start Over';
+                restartButton.href = '#';
+                restartButton.onclick = function() {
+                    renderScene('start');
+                    return false;
+                };
+                optionsDiv.appendChild(restartButton);
+            }
+        }
+
+        renderScene('start');
+    </script>
+</body>
+</html>
